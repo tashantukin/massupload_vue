@@ -1,18 +1,7 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 <link rel="stylesheet" href="css/mass-upload.css">
 
 <div class="col-sm-9 main-content" id="main">
-            <!-- <div class="page-header" id="no-sub-title">
-                <div class="pull-left">
-                    <div class="wrapper">
-                        <div class="page-icon"><i class="icon icon-mass"></i></div>
-                        <div class="page-title">
-                            <h1>Mass Upload</h1>
-                        </div>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-            </div> -->
             <div class="page-content" id="app">
                 <div class="top-note page-topnav">
                   <p>Mass upload items to your marketplace using the special csv. <a href="#">Get the format here.</a></p>
@@ -28,11 +17,11 @@
                       </div>
                     </div>
                     <div class="table-responsive csv-extractor">
-                      <table class="table empty" v-if='parse_csv'>
+                      <table class="table" v-if='parse_csv'>
                         <thead class="thead-dark">
                           <tr>
                           <th v-for="key in parse_header"
-                          @click="sortBy(key)"
+                        
                          :class="{ active: sortKey == key }">
                          {{ key | capitalize }}
                         </th> 
@@ -46,9 +35,13 @@
                          
                           </tr>
                         </tbody>
-                      </table>
+                      </table>      
+                      <div class="data-loader">
+                        <div class="round-load"></div>
+                      </div>
                     </div>
-                    <div class="upload-section mt-30">
+                    </div>
+                    <div class="upload-section mt-30 active">
                       <button>Upload</button>
                     </div>
                   </div>
@@ -113,7 +106,51 @@
         
         
 <!-- </div>  -->
+<script type="text/javascript" src="https://bootstrap.arcadier.com/adminportal/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+     ( function( $, window, document, undefined )
+{
+  $( '.inputfile' ).each( function()
+  {
+    var $input   = $( this ),
+      $label   = $input.next( 'label' ),
+      labelVal = $label.html();
 
+    $input.on( 'change', function( e )
+    {
+      var fileName = '';
+
+      if( this.files && this.files.length > 1 )
+        fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+      else if( e.target.value )
+        fileName = e.target.value.split( '\\' ).pop();
+
+      if( fileName )
+        $label.find( '.archive-name' ).html( fileName );
+      else
+        $label.html( labelVal );
+    });
+
+    // Firefox bug fix
+    $input
+    .on( 'focus', function(){ $input.addClass( 'has-focus' ); })
+    .on( 'blur', function(){ $input.removeClass( 'has-focus' ); });
+  });
+})( jQuery, window, document );
+    $(document).ready(function(){
+      $("body").on("click" , ".upload-section.active button" , function(){
+        $(".data-loader").addClass("active");
+      });
+      setTimeout( function(){
+      $('.data-loader').removeClass('active')
+      }, 3000 );
+      $("body").on("click"  , ".btn-inputfileclear" , function(){
+          $(".csv-extractor .table tbody tr").remove();
+          $(".csv-extractor .table tbody").html("<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
+          $(".csv-extractor > table").addClass("empty");
+      });
+    });
+   </script>
 
 <!-- <script type="text/javascript" src="scripts/package.js"></script> -->
 
