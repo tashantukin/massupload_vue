@@ -8,7 +8,8 @@ new Vue({
         parse_header: [],
         parse_csv: [],
         sortOrders:{},
-        sortKey: ''
+        sortKey: '',
+        count: ''
       };
     },
     filters: {
@@ -25,6 +26,7 @@ new Vue({
       csvJSON(csv){
         var vm = this
         var lines = csv.split("\n")
+        vm.count = lines.length - 1
         var result = []
         var headers = lines[0].split(",")
         vm.parse_header = lines[0].split(",") 
@@ -56,6 +58,7 @@ new Vue({
           reader.readAsText(e.target.files[0]);
           // Handle errors load
           reader.onload = function(event) {
+
             var csv = event.target.result;
             vm.parse_csv = vm.csvJSON(csv)
             

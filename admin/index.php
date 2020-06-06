@@ -11,8 +11,8 @@
                     <div class="d-flex">
                       <div class="browse-element">
                           <div class="form-group">
-                            <input type="file" name="file-7[]" id="file-7" class="inputfile" data-multiple-caption="{count} Upload File" multiple  @change="loadCSV($event)">
-                            <label for="file-7"><span class="archive-name">Upload File</span><span class="btn-inputfile"> Browse</span></label><span class="btn-inputfileclear">Clear</span>
+                            <input type="file" name="file-7[]" id="file-7" accept=".csv class="inputfile" data-multiple-caption="{count} Upload File" multiple  @change="loadCSV($event)">
+                            <label for="file-7"><span class="archive-name">Upload File</span><span class="btn-inputfile"> Browse</span></label><span class="btn-inputfileclear">Clear</span><span class="result-found">{{ count }} Items Found.</span>
                           </div>
                       </div>
                     </div>
@@ -115,8 +115,8 @@
     var $input   = $( this ),
       $label   = $input.next( 'label' ),
       labelVal = $label.html();
-
-    $input.on( 'change', function( e )
+function inputchange() {
+  $input.on( 'change', function( e )
     {
       var fileName = '';
 
@@ -129,7 +129,10 @@
         $label.find( '.archive-name' ).html( fileName );
       else
         $label.html( labelVal );
+        $('.result-found').text(this.files.length);
     });
+}
+   
 
     // Firefox bug fix
     $input
