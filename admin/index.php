@@ -11,7 +11,7 @@
                     <div class="d-flex">
                       <div class="browse-element">
                           <div class="form-group">
-                            <input type="file" name="file-7[]" id="file-7" accept=".csv class="inputfile" data-multiple-caption="{count} Upload File" multiple  @change="loadCSV($event)">
+                            <input type="file" name="file-7[]" id="file-7" accept=".csv" class="inputfile" data-multiple-caption="{count} Upload File" multiple  @change="loadCSV($event)">
                             <label for="file-7"><span class="archive-name">Upload File</span><span class="btn-inputfile"> Browse</span></label><span class="btn-inputfileclear">Clear</span><span class="result-found">{{ count }} Items Found.</span>
                           </div>
                       </div>
@@ -42,7 +42,7 @@
                     </div>
                     </div>
                     <div class="upload-section mt-30 active">
-                      <button>Upload</button>
+                      <button v-on:click=onUpload>Upload</button>
                     </div>
                   </div>
                   
@@ -51,8 +51,6 @@
         </div>
         <div class="clearfix"></div>
     </div>
-
-
 
 
 <!-- 
@@ -158,7 +156,9 @@ function inputchange() {
 <!-- <script type="text/javascript" src="scripts/package.js"></script> -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17-beta.0/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
 <script type="text/javascript" src="scripts/package1.js"></script>
-<script type="text/javascript">  
+
+<script type="text/javascript">    
 
 </script>
