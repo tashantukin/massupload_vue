@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="css/mass-upload.css">
 
 <div class="col-sm-9 main-content" id="main">
-            <div class="page-header" id="no-sub-title">
+            <!-- <div class="page-header" id="no-sub-title">
                 <div class="pull-left">
                     <div class="wrapper">
                         <div class="page-icon"><i class="icon icon-mass"></i></div>
@@ -12,8 +12,8 @@
                     </div>
                 </div>
                 <div class="clearfix"></div>
-            </div>
-            <div class="page-content">
+            </div> -->
+            <div class="page-content" id="app">
                 <div class="top-note page-topnav">
                   <p>Mass upload items to your marketplace using the special csv. <a href="#">Get the format here.</a></p>
                 </div>
@@ -22,41 +22,28 @@
                     <div class="d-flex">
                       <div class="browse-element">
                           <div class="form-group">
-                            <input type="file" name="file-7[]" id="file-7" class="inputfile" data-multiple-caption="{count} Upload File" multiple>
+                            <input type="file" name="file-7[]" id="file-7" class="inputfile" data-multiple-caption="{count} Upload File" multiple  @change="loadCSV($event)">
                             <label for="file-7"><span class="archive-name">Upload File</span><span class="btn-inputfile"> Browse</span></label><span class="btn-inputfileclear">Clear</span>
                           </div>
                       </div>
                     </div>
                     <div class="table-responsive csv-extractor">
-                      <table class="table empty">
+                      <table class="table empty" v-if='parse_csv'>
                         <thead class="thead-dark">
                           <tr>
-                            <th>Count</th>
-                            <th>Item Name</th>
-                            <th>SKU</th>
-                            <th>Price</th>
-                            <th>Stock</th>
-                            <th>Stock Limited</th>
-                            <th>Variant Group 1</th>
-                            <th>Variant Group 2</th>
-                            <th>Variant Group 3</th>
-                            <th>Parent Category</th>
-                            <th>Sub Category</th>
+                          <th v-for="key in parse_header"
+                          @click="sortBy(key)"
+                         :class="{ active: sortKey == key }">
+                         {{ key | capitalize }}
+                        </th> 
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                          <tr v-for="csv in parse_csv">
+                            <td v-for="key in parse_header">
+                             {{csv[key]}}
+                            </td>
+                         
                           </tr>
                         </tbody>
                       </table>
@@ -119,19 +106,19 @@
                 <tr>
                 <th width="5%">Item Name</th>
                 <th width="10%">Error</th>
-                <!-- <th width="20%">Name</th>
-                <th width="30%">Email</th> -->
-                </tr>
+              
             </thead>
             <tbody></tbody>
-        </table>
+        </table> -->
         
         
-</div> -->
+<!-- </div>  -->
 
 
-<script type="text/javascript" src="scripts/package.js"></script>
+<!-- <script type="text/javascript" src="scripts/package.js"></script> -->
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17-beta.0/vue.js"></script>
+<script type="text/javascript" src="scripts/package1.js"></script>
 <script type="text/javascript">  
 
 </script>
