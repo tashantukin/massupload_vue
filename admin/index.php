@@ -45,9 +45,33 @@
                       <button v-on:click=onUpload>Upload</button>
                     </div>
                   </div>
-                  
+                  <table class="table">
+                        <thead class="thead-dark">
+                          <tr>
+                          <th> Count</th> 
+                          <th> Item Name</th> 
+                          <th> Errors</th> 
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="item in results">
+                            <td> {{ item.Name }}  </td>
+                            <td> {{ item.Error }}  </td>
+                         
+                          </tr>
+                        </tbody>
+                      </table>      
+
                 </div>
             </div>
+          
+
+
+
+
+
+
+
         </div>
         <div class="clearfix"></div>
     </div>

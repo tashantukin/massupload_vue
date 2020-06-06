@@ -15,7 +15,7 @@ new Vue({
         sortKey: '',
         count: '',
         csvcontent:'',
-        result:[]
+        results:''
       };
     },
     filters: {
@@ -91,14 +91,23 @@ new Vue({
 
          // config: { headers: {'Content-Type': 'multipart/form-data' }}
       })
-      .then(function (response) {
-          //handle success
-          this.result =  response.data
-          
-          console.log(response)
-          $('.data-loader').removeClass('active');
-          
+
+      .then(response => {
+
+        vm.results = JSON.parse(response.data).result
+        console.table(vm.results)
+        $('.data-loader').removeClass('active');
+
       })
+      // .then(function (response) {
+      //     //handle success
+      //     vm.results =  response['data'][0]['result']
+
+      //     console.log(response)
+      //     console.table(vm.results)
+      //     $('.data-loader').removeClass('active');
+          
+      // })
       .catch(function (response) {
           //handle error
           console.log(response)
