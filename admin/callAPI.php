@@ -33,12 +33,13 @@ function callAPI($method, $access_token, $url, $data = false) {
         array_push($headers, sprintf('Authorization: Bearer %s', $access_token));
     }
     curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+     curl_setopt($ch, CURLOPT_HEADER, true);
     curl_setopt($curl, CURLOPT_URL, $url);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
     $result = curl_exec($curl);
     curl_close($curl);
-    return json_decode($result, true); 
+    return json_decode($result,true); 
 }
 
 function getMarketplaceBaseUrl() {

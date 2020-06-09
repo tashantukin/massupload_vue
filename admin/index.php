@@ -20,6 +20,7 @@
                       <table class="table" v-if='parse_csv'>
                         <thead class="thead-dark">
                           <tr>
+                          <!-- <th v-for="(key,itemkey) in parse_header"> {{itemkey + 1}} </th> -->
                           <th v-for="key in parse_header"
                         
                          :class="{ active: sortKey == key }">
@@ -45,33 +46,32 @@
                       <button v-on:click=onUpload>Upload</button>
                     </div>
                   </div>
-                  <table class="table">
-                        <thead class="thead-dark">
-                          <tr>
-                          <th> Count</th> 
-                          <th> Item Name</th> 
-                          <th> Errors</th> 
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr v-for="item in results">
-                            <td> {{ item.Name }}  </td>
-                            <td> {{ item.Error }}  </td>
-                         
-                          </tr>
-                        </tbody>
-                      </table>      
+
+                  <div class="table-responsive csv-extractor">
+                    <table class="table">
+                          <thead class="thead-dark">
+                            <tr>
+                            <th> Count</th> 
+                            <th> Item Name</th> 
+                            <th> Upload Errors</th> 
+                            <th> Upload Result</th> 
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr v-for="(item,itemkey) in results">
+                              <td> {{itemkey + 1}}  </td>
+                              <td> {{ item.Name }}  </td>
+                              <td> {{ item.Error }}  </td>
+                              <td> {{ item.code }}  </td>
+                          
+                            </tr>
+                          </tbody>
+                      </table>   
+                  </div>   
 
                 </div>
             </div>
           
-
-
-
-
-
-
-
         </div>
         <div class="clearfix"></div>
     </div>
@@ -155,7 +155,6 @@ function inputchange() {
     });
 }
    
-
     // Firefox bug fix
     $input
     .on( 'focus', function(){ $input.addClass( 'has-focus' ); })

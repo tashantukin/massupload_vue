@@ -47,14 +47,15 @@ function isShippingValid($shippingId, $merchantId) {
 }
 
 $csv = array_map('str_getcsv', $csvdata);
+array_shift($csv); //remove the headers
   $upload_result = [];
-  $upload_error = [];
+  
   $upload_counter = 0;
   $success_counter = 0;
   $failed_counter = 0;
 
 foreach($csv as $line) {
- 
+   $upload_error = [];
    $category_error_count= 0;
    $shipping_error_count= 0;
    $allimages = [];
@@ -87,10 +88,10 @@ foreach($csv as $line) {
     // $variantlist = [18,19,20];
     foreach (range(17, 19) as $eachvariant) {
       $variants = !strlen($line[$eachvariant]) == 0 ? explode('/', $line[$eachvariant]) : null;  
-      $variants != null ?  $allvariants[] = array('Variants' => [ array('ID' => '', 'Name' => $variants[0], 'GroupName' => $variants[1], 'PriceChange' => $variants[2], 'SortOrder' => $variants[3])]) : ''; 
+      $variants != null ?  $allvariants[] = array('Variants' => [ array('ID' => '', 'Name' => $variants[0], 'GroupName' => $variants[1], 'SortOrder' => $variants[3])],  'SKU' => 'random', 'Price' => $variants[2], 'StockLimited' => false, 'StockQuantity' => 10 ) : ''; 
     }
     //return error on each item
-    $upload_result[] = array('Name' => $line[3], 'Error' => $upload_error);
+   
     // $upload_result[] = array('Name' => $line[3],);
     // $upload_result[0]['Error']  = $upload_error;
         $item_details = array('SKU' =>  $line[10], 
@@ -115,11 +116,15 @@ foreach($csv as $line) {
 
       $url =  $baseUrl . '/api/v2/merchants/'. $line[1] .'/items';
       $result =  callAPI("POST",$admin_token['access_token'], $url, $item_details);   
+      $result1 = json_encode(['err' => $result]);
       $upload_counter++;
-
+      $itemresult =  array_key_exists("Message", $result) ? $result['InnerErrors'][0]['Message'] : 'No Error'; //if meerchant ID is invalid
+    //  echo json_encode(['result' => $result]);  
+      $upload_result[] = array('Name' => $line[3], 'Error' => $upload_error, 'code' =>  $itemresult);
+    //  array_key_exists('Message',
 }
   $upload_result[0]['Total'] = $upload_counter;
-      echo json_encode(['result' => $upload_result]);  
+       echo json_encode(['result' => $upload_result]);  
     
 // }
 

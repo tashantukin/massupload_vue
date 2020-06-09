@@ -31,14 +31,18 @@ new Vue({
       },
       csvJSON(csv){
         var vm = this
+       
         var lines = csv.split("\n")
+        // lines.unshift(counter);
         // csvcontent =  lines.shift();
         vm.count = lines.length - 1
         var result = []
         var headers = lines[0].split(",")
         vm.parse_header = lines[0].split(",") 
+       
         vm.csvcontent = lines
         lines[0].split(",").forEach(function (key) {
+          // counter++;
           vm.sortOrders[key] = 1
         })
         
@@ -51,11 +55,10 @@ new Vue({
           headers.map(function(header, indexHeader){
             obj[header] = currentline[indexHeader]
           })
-          
           result.push(obj)
         })
         
-        result.pop() // remove the last item because undefined values
+        // result.pop() // remove the last item because undefined values
         
         return result // JavaScript object
       },
@@ -95,7 +98,8 @@ new Vue({
       .then(response => {
 
         vm.results = JSON.parse(response.data).result
-        console.table(vm.results)
+        // vm.results = JSON.stringify(response)
+        console.log(vm.results)
         $('.data-loader').removeClass('active');
 
       })
