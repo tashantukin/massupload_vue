@@ -57,10 +57,9 @@ $csv = array_map('str_getcsv', $csvdata);
 foreach($csv as $line) {
    $upload_error = [];
    $category_error_count= 0;
-   $shipping_error_count= 0; 
+   $shipping_error_count= 0;
    $allimages = [];
    $allvariants = [];
-   $child_items = [];
    
    //category check
    $categories  = !strlen($line[3]) == 0 ? explode('/', $line[2]) : null;
@@ -84,19 +83,18 @@ foreach($csv as $line) {
     empty($allimages) ? $upload_error[] = 'No Media found.' : '';
     $category_error_count != 0 ? $upload_error[] = $category_error_count . ' Category ID error/s found' : '';
     $shipping_error_count != 0 ? $upload_error[] = $shipping_error_count . ' Shipping ID error/s found' : '';
-    // , 'SortOrder' => '0'
+
     //variants check
     // $variantlist = [18,19,20];
     foreach (range(15, 17) as $eachvariant) {
       $variants = !strlen($line[$eachvariant]) == 0 ? explode('/', $line[$eachvariant]) : null;  
-      $variants != null ?  $allvariants[] = array('Variants' => [ array('ID' => '', 'Name' => $variants[1], 'GroupName' => $variants[0]),array('ID' => '', 'Name' => $variants[3], 'GroupName' => $variants[2])],  'SKU' => 'random', 'Price' => '0', 'StockLimited' => true, 'StockQuantity' => $variants[4]) : ''; 
-     
+      $variants != null ?  $allvariants[] = array('Variants' => [ array('ID' => '', 'Name' => $variants[0], 'GroupName' => $variants[1], 'SortOrder' => '0')],  'SKU' => 'random', 'Price' => '0', 'StockLimited' => 'true', 'StockQuantity' => $line[13] ) : ''; 
     }
 
-   
+
+    
     //return error on each item
-  //  print_r($allvariants);
-  //  error_log(json_encode($allvariants));
+   
     // $upload_result[] = array('Name' => $line[3],);
     // $upload_result[0]['Error']  = $upload_error;
         $item_details = array('SKU' =>  $line[10], 
@@ -116,10 +114,8 @@ foreach($csv as $line) {
         'PickupAddresses' => null, //[ array('ID' => $line[15])], 
         'Media' => $allimages,
         'Tags' => null, 
-        'ChildItems' => $allvariants//$allvariants
+        'ChildItems' =>  $allvariants
      );
-
-     error_log(json_encode($item_details));
 
       $url =  $baseUrl . '/api/v2/merchants/'. $line[1] .'/items';
       $result =  callAPI("POST",$admin_token['access_token'], $url, $item_details);   

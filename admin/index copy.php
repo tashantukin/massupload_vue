@@ -1,8 +1,51 @@
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+<!-- <?php
+
+ignore_user_abort(true);
+set_time_limit(0); // disable the time limit for this script
+
+$path = realpath("downloads/example.csv"); // change the path to fit your websites document structure
+
+$dl_file = preg_replace("([^\w\s\d\-_~,;:\[\]\(\).]|[\.]{2,})", '', $_GET['download_file']); // simple file name validation
+$dl_file = filter_var($dl_file, FILTER_SANITIZE_URL); // Remove (more) invalid characters
+$fullPath = $path.$dl_file;
+
+if ($fd = fopen ($fullPath, "r")) {
+    $fsize = filesize($fullPath);
+    $path_parts = pathinfo($fullPath);
+    $ext = strtolower($path_parts["extension"]);
+    switch ($ext) {
+        case "pdf":
+        header("Content-type: application/pdf");
+        header("Content-Disposition: attachment; filename=\"".$path_parts["basename"]."\""); // use 'attachment' to force a file download
+        break;
+        // add more headers for other content types here
+        default;
+        header("Content-type: application/octet-stream");
+        header("Content-Disposition: filename=\"".$path_parts["basename"]."\"");
+        break;
+    }
+    header("Content-length: $fsize");
+    header("Cache-control: private"); //use this to open files directly
+    while(!feof($fd)) {
+        $buffer = fread($fd, 2048);
+        echo $buffer;
+    }
+}
+fclose ($fd);
+exit;
+
+echo '
+<a href="http://mydomain.com/download.php?download_file=some_file.pdf">PHP download file</a>';
+
+
+?> -->
+
 
 <link rel="stylesheet" href="css/mass-upload.css">
 
-<!-- <div class="col-sm-9 main-content" id="main"> -->
-
+<div class="col-sm-9 main-content" id="main">
+<button id ="createrandom">Create random csv file </button>
             <div class="page-content" id="app">
                 <div class="top-note page-topnav">
                   <p>Mass upload items to your marketplace using the special csv. <a href="#">Get the format here.</a></p>
@@ -28,7 +71,7 @@
                          {{ key | capitalize }}
                         </th> 
                           </tr>
-                        </thead> 
+                        </thead>
                         <tbody>
                           <tr v-for="csv in parse_csv">
                             <td v-for="key in parse_header">
@@ -62,10 +105,10 @@
                             <tr v-for="(item,itemkey) in results">
                               <td> {{itemkey + 1}}  </td>
                               <td> {{ item.Name }}  </td>
-                              <td> {{ item.Error.length == 0 ? item.Error : 'No Errors' }}  </td>
+                              <td> {{ item.Error }}  </td>
                               <td> {{ item.code }}  </td>
-                            </tr>
                           
+                            </tr>
                           </tbody>
                       </table>   
                   </div>   
@@ -73,11 +116,11 @@
                 </div>
             </div>
           
-        <!-- </div> -->
+        </div>
         <div class="clearfix"></div>
     </div>
 
-    <!-- </div> -->
+
 <!-- 
 <div class="col-sm-9 main-content">
     <div class="page-content page-layout">
@@ -174,8 +217,6 @@ function inputchange() {
           $(".csv-extractor .table tbody tr").remove();
           $(".csv-extractor .table tbody").html("<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
           $(".csv-extractor > table").addClass("empty");
-
-          location.reload();
       });
 
       // $('body').on('click','#createrandom', function(){

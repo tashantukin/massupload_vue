@@ -47,7 +47,7 @@ function isShippingValid($shippingId, $merchantId) {
 }
 
 $csv = array_map('str_getcsv', $csvdata);
- array_shift($csv); //remove the headers$csv = 
+array_shift($csv); //remove the headers
   $upload_result = [];
   
   $upload_counter = 0;
@@ -57,10 +57,9 @@ $csv = array_map('str_getcsv', $csvdata);
 foreach($csv as $line) {
    $upload_error = [];
    $category_error_count= 0;
-   $shipping_error_count= 0; 
+   $shipping_error_count= 0;
    $allimages = [];
    $allvariants = [];
-   $child_items = [];
    
    //category check
    $categories  = !strlen($line[3]) == 0 ? explode('/', $line[2]) : null;
@@ -69,11 +68,11 @@ foreach($csv as $line) {
       isCategoryValid($category) ? $allcategories[] = array('ID'  =>  $category) : $category_error_count++; $failed_counter++; 
     }
     //shipping details check
-    // $shipping = !strlen($line[17]) == 0 ? explode('/', $line[16]) : null;
-    // $allshipping = [];
-    // foreach($shipping as $shippingId) {
-    //   isShippingValid($shippingId,$line[1]) ? $allshipping[] = array('ID' => $shippingId) : $shipping_error_count++; 
-    // }
+    $shipping = !strlen($line[17]) == 0 ? explode('/', $line[16]) : null;
+    $allshipping = [];
+    foreach($shipping as $shippingId) {
+      isShippingValid($shippingId,$line[1]) ? $allshipping[] = array('ID' => $shippingId) : $shipping_error_count++; 
+    }
 
    //image check
   //  $imageslist = [5,6,7,8,9];
@@ -84,19 +83,15 @@ foreach($csv as $line) {
     empty($allimages) ? $upload_error[] = 'No Media found.' : '';
     $category_error_count != 0 ? $upload_error[] = $category_error_count . ' Category ID error/s found' : '';
     $shipping_error_count != 0 ? $upload_error[] = $shipping_error_count . ' Shipping ID error/s found' : '';
-    // , 'SortOrder' => '0'
+
     //variants check
     // $variantlist = [18,19,20];
-    foreach (range(15, 17) as $eachvariant) {
+    foreach (range(17, 19) as $eachvariant) {
       $variants = !strlen($line[$eachvariant]) == 0 ? explode('/', $line[$eachvariant]) : null;  
-      $variants != null ?  $allvariants[] = array('Variants' => [ array('ID' => '', 'Name' => $variants[1], 'GroupName' => $variants[0]),array('ID' => '', 'Name' => $variants[3], 'GroupName' => $variants[2])],  'SKU' => 'random', 'Price' => '0', 'StockLimited' => true, 'StockQuantity' => $variants[4]) : ''; 
-     
+      $variants != null ?  $allvariants[] = array('Variants' => [ array('ID' => '', 'Name' => $variants[0], 'GroupName' => $variants[1], 'SortOrder' => $variants[3])],  'SKU' => 'random', 'Price' => $variants[2], 'StockLimited' => false, 'StockQuantity' => $variants[2] ) : ''; 
     }
-
-   
     //return error on each item
-  //  print_r($allvariants);
-  //  error_log(json_encode($allvariants));
+   
     // $upload_result[] = array('Name' => $line[3],);
     // $upload_result[0]['Error']  = $upload_error;
         $item_details = array('SKU' =>  $line[10], 
@@ -112,20 +107,18 @@ foreach($csv as $line) {
         'IsAvailable' => '',
         'CurrencyCode' =>  $line[11],
         'Categories' =>  $allcategories,
-        'ShippingMethods'  => null, //$allshipping,
-        'PickupAddresses' => null, //[ array('ID' => $line[15])], 
+        'ShippingMethods'  => $allshipping,
+        'PickupAddresses' => [ array('ID' => $line[15])], 
         'Media' => $allimages,
         'Tags' => null, 
-        'ChildItems' => $allvariants//$allvariants
+        'ChildItems' =>  $allvariants
      );
-
-     error_log(json_encode($item_details));
 
       $url =  $baseUrl . '/api/v2/merchants/'. $line[1] .'/items';
       $result =  callAPI("POST",$admin_token['access_token'], $url, $item_details);   
       $result1 = json_encode(['err' => $result]);
       $upload_counter++;
-      $itemresult =  array_key_exists("Message", $result) ? $result['InnerErrors'][0]['Message'] : 'Success'; //if meerchant ID is invalid
+      $itemresult =  array_key_exists("Message", $result) ? $result['InnerErrors'][0]['Message'] : 'No Error'; //if meerchant ID is invalid
     //  echo json_encode(['result' => $result]);  
       $upload_result[] = array('Name' => $line[3], 'Error' => $upload_error, 'code' =>  $itemresult);
     //  array_key_exists('Message',
