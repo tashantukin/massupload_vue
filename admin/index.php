@@ -5,7 +5,7 @@
 
             <div class="page-content" id="app">
                 <div class="top-note page-topnav">
-                  <p>Mass upload items to your marketplace using the special csv. <a href="#">Get the format here.</a></p>
+                  <p>Mass upload items to your marketplace using the special csv. <a href="#"id ="formatlink">Get the format here.</a></p>
                 </div>
                 <div class="page-topnav secondnary-topnav">
                   <div class="mass-upload-browser"> 
@@ -186,21 +186,7 @@ function inputchange() {
 
     });
 
-    // function createrandom() {
-    //   $.ajax({
-        
-    //     url: apiUrl,
-    //     method: 'POST',
-    //     contentType: 'application/json',
-    //     data: JSON.stringify(data),
-    //     success: function(result) {
-    //        console.log('success');
-    //     },
-    //     error: function(jqXHR, status, err) {
-    //         toastr.error('Error!');
-    //     }
-    // });
-    // }
+   
    </script>
 
 <!-- <script type="text/javascript" src="scripts/package.js"></script> -->

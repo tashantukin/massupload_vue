@@ -88,25 +88,35 @@ foreach($csv as $line) {
     //variants check
     // $variantlist = [18,19,20];
 
-    // foreach (range(15, 17) as $eachvariant) {
-    //   $variants = !strlen($line[$eachvariant]) == 0 ? explode('/', $line[$eachvariant]) : null;  
-    //   $variants != null ?  $allvariants[] = array('Variants' => [ array('ID' => '', 'Name' => $variants[1], 'GroupName' => $variants[0]),array('ID' => '', 'Name' => $variants[3], 'GroupName' => $variants[2]), array('ID' => '', 'Name' => $variants[5], 'GroupName' => $variants[4])],  'SKU' => 'random', 'Price' => '0', 'StockLimited' => true, 'StockQuantity' => $variants[6]) : ''; 
-    
-    //  // $child_items[] = $allvariants;
-    // }
-
-    foreach (range(15,17) as $eachvariant) {
+    foreach (range(15, 17) as $eachvariant) {
       $variants = !strlen($line[$eachvariant]) == 0 ? explode('/', $line[$eachvariant]) : null;  
-      // echo json_encode(['count' => count($variants)]); 
-
-      if($variants != null){
-        count($variants) == 3 ?  $allvariants[] = array('Variants' => [ array('ID' => '', 'Name' => $variants[1], 'GroupName' => $variants[0])], 'SKU' => 'random', 'Price' => '0', 'StockLimited' => true, 'StockQuantity' => $variants[2]) : ''; 
-        count($variants) == 5 ?  $allvariants[] = array('Variants' => [ array('ID' => '', 'Name' => $variants[1], 'GroupName' => $variants[0]),array('ID' => '', 'Name' => $variants[3], 'GroupName' => $variants[2])],  'SKU' => 'random', 'Price' => '0', 'StockLimited' => true, 'StockQuantity' => $variants[4]) : ''; 
-        count($variants) == 7 ?  $allvariants[] = array('Variants' => [ array('ID' => '', 'Name' => $variants[1], 'GroupName' => $variants[0]),array('ID' => '', 'Name' => $variants[3], 'GroupName' => $variants[2]), array('ID' => '', 'Name' => $variants[5], 'GroupName' => $variants[4])],  'SKU' => 'random', 'Price' => '0', 'StockLimited' => true, 'StockQuantity' => $variants[6]) : ''; 
-        
-      }
-
+      $variants != null ?  $allvariants[] = array('Variants' => [ array('ID' => '', 'Name' => $variants[1], 'GroupName' => $variants[0]),array('ID' => '', 'Name' => $variants[3], 'GroupName' => $variants[2]), array('ID' => '', 'Name' => $variants[5], 'GroupName' => $variants[4])],  'SKU' => 'random', 'Price' => '0', 'StockLimited' => true, 'StockQuantity' => $variants[6]) : ''; 
+     
+     // $child_items[] = $allvariants;
     }
+
+
+    // foreach (range(15,17) as $eachvariant) {
+    //   $variants = !strlen($line[$eachvariant]) == 0 ? explode('/', $line[$eachvariant]) : null;  
+
+    //   if($variants != null ){
+
+    //    // $allvariants[] = array('Variants' => [],  'SKU' => 'random', 'Price' => '0', 'StockLimited' => true, 'StockQuantity' => $variants[6]); 
+
+    //    $child_items[]  = $variants[0] != 'n' ? array('ID' => '', 'Name' => $variants[1], 'GroupName' => $variants[0]) : '';
+    //    $child_items[]  = $variants[2] != 'n' ? array('ID' => '', 'Name' => $variants[3], 'GroupName' => $variants[2]) : '';
+    //    $child_items[]  = $variants[4] != 'n' ? array('ID' => '', 'Name' => $variants[5], 'GroupName' => $variants[4]) : '';
+         
+    //   }
+
+    //  // error_log(json_encode($allvariants));
+  
+    //   // $allvariants[] = `'SKU' => 'random', 'Price' => '0', 'StockLimited' => true, 'StockQuantity' => $variants[6]`;
+     
+
+    //  $allvariants[] = array('Variants' => $child_items,'SKU' => 'random', 'Price' => '0', 'StockLimited' => true, 'StockQuantity' => $variants[6]); 
+    //  echo json_encode($allvariants);  
+    // }
 
    
     //return error on each item
@@ -131,7 +141,7 @@ foreach($csv as $line) {
         'PickupAddresses' => null, //[ array('ID' => $line[15])], 
         'Media' => $allimages,
         'Tags' => null, 
-        'ChildItems' => $allvariants 
+        'ChildItems' => $allvariants//$allvariants
      );
 
      error_log(json_encode($item_details));
@@ -147,6 +157,9 @@ foreach($csv as $line) {
 }
   $upload_result[0]['Total'] = $upload_counter;
        echo json_encode(['result' => $upload_result]);  
-  
-  
+    
+// }
+
+
+
 ?>
