@@ -62,8 +62,8 @@ for ($x = 1; $x <= 10; $x++) {
     $merchants_id = $random_merchant[array_rand($random_merchant)];
     $cats_id = $random_category[array_rand($random_category)];
     $item_name = 'Sample Item ' . $x;
-    $image_1 = 'sample url link';
-    $image_2 = 'sample url link';
+    $image_1 = 'https://www.pngkit.com/png/full/129-1298403_upload-files-bank.png';
+    $image_2 = 'https://images.goodsmile.info/cgm/images/product/20200720/9800/72596/large/ecf483c7e31939c37dc3be0d0894811b.jpg';
     $image_3 = 'sample url link';
     $image_4 = 'sample url link';
     $image_5 = 'sample url link';
@@ -73,9 +73,9 @@ for ($x = 1; $x <= 10; $x++) {
     $price = 100 + $x;
     $stock_qty = 10 * $x;
     $stock_limited = $random_limit[array_rand($random_limit)];
-    $variant1 = 'Red/Color/Size/M/Type/B';
-    $variant2 = 'Blue/Color/Size/S/Type/A';
-    $variant3 = 'Green/Color/Size/L/Type/A';
+    $variant1 = 'Color/Red/Size/M/Type/B/10';
+    $variant2 = 'Color/Blue/Size/S/Type/A/10';
+    $variant3 = 'Color/Green/Size/L/Type/A/20';
 
     $itemsRows = array($itemID,  $merchants_id,  $cats_id, $item_name, $image_1, $image_2, $image_3,  $image_4, $image_5, $item_desc, $SKU, $currency, $price, $stock_qty,$stock_limited,$variant1,$variant2,$variant3);
     fputcsv($fh_items,  $itemsRows);
@@ -83,90 +83,6 @@ for ($x = 1; $x <= 10; $x++) {
     echo json_encode(['rows' => $itemsRows ]);    
   } 
   fclose($fh_items);
-
-
-
-// foreach($result['Records'] as $orders) {
-//     $orderId = $orders['Orders'][0]['ID'];
-//     $invoiceId = $orders['InvoiceNo'];
-//     $timestamp= date('d/m/Y H:i', $orders['Orders'][0]['CreatedDateTime']);
-//     $merchantEmail =  $orders['Orders'][0]['MerchantDetail']['Email'];
-//     $consumerEmail =  $orders['Orders'][0]['ConsumerDetail']['Email'];
-//     $buyerDisplayName = $orders['Orders'][0]['ConsumerDetail']['DisplayName'];   
-//     $paymentStatus = $orders['Orders'][0]['PaymentStatus'];  
-//     $orderStatus = $orders['Orders'][0]['FulfilmentStatus']; 
-//     $delInfo = $orders['Orders'][0]['CustomFields'][0]['Values'][0];
-//     $delInfo = json_decode($delInfo,true);
-//     $delName = $delInfo['DeliveryName'];
-//     $delCost = $delInfo['DeliveryCost'];  
-//     $subtotal = $orders['Total'];
-//     $discounts = $orders['Orders'][0]['DiscountAmount'] != null ?  $orders['Orders'][0]['DiscountAmount'] : 0;
-//     $adminFee = $orders['Fee'];
-//     $grandTotal = $orders['Orders'][0]['GrandTotal'];
-
-//      //pick up or delivery
-//      $cartItemType = $orders['Orders'][0]['CartItemDetails'][0]['CartItemType'];
-
-     
-//      $delivery=  $cartItemType == 'delivery' ? $delName : '';
-//      $pickUp = $cartItemType == 'pickup' ? $delName : '';
-     
-//     $invoiceRow =  array($invoiceId, $timestamp, $buyerDisplayName, $consumerEmail, $paymentStatus, $orderStatus, $delivery, $pickUp,  $subtotal, $delCost, $discounts, $adminFee, $grandTotal);
-//     fputcsv($fh,  $invoiceRow);
-
-//     foreach($orders['Orders'][0]['CartItemDetails'] as $itemDetails){
-//         $itemId = $itemDetails['ItemDetail']['ID'];
-//         $itemName = $itemDetails['ItemDetail']['Name'];
-
-//         $url = $baseUrl . '/api/v2/items/' . $itemId ; 
-//         $items = callAPI("GET", $admin_token['access_token'], $url, false);  
-//         //$itemCategory = $items['Categories'][0]['Name'];
-//         $categoryList = [];
-//         foreach($items['Categories'] as $category) {
-//             $categoryList[] = $category['Name'];
-//         }
-//         $item_categories =  implode("|",$categoryList);
-//         $subCategoryName = $itemCategory != null ? $itemCategory : null;
-
-//         $parentCategoryName= '';
-//         $variantList = [];
-//         foreach($itemDetails['ItemDetail']['Variants'] as $variant) {
-//             $variantList[] = $variant['Name'];
-//         }
-       
-//         $variantOption1 = count($variantList) ? $variantList[0]: null;    
-//         $variantOption2 = count($variantList) >= 2 ? $variantList[1] : null;  
-//         $variantOption3 = count($variantList) >= 3 ? $variantList[2] : null; 
-
-//         $SKU = $itemDetails['ItemDetail']['SKU'];
-//         $itemPrice = $itemDetails['ItemDetail']['Price'];
-//         $qty = $itemDetails['Quantity'];
-
-//          //populate items csv
-//          $itemsRows = array($invoiceId,  $parentCategoryName,  $item_categories, $itemName, $variantOption1, $variantOption2, $variantOption3,  $SKU,  $itemPrice, $qty);
-//          fputcsv($fh_items,  $itemsRows);
-
-//     }
-   
-// }
-
-// $rename = $timestamp . '.csv';
-// fclose($fh);
-// rename('item.csv', $rename);
-
-// rename('invoice.csv', $rename);
-
-// Timestamp ok
-// Buyer display name	ok 
-// Buyer Email	ok
-// Payment Status ok
-// Order Status	 ok 
-// Shipping Method	ok
-// Order Sub-total	ok
-// Shipping Costs	ok
-// Discounts	ok
-// Admin Fees	ok
-// Grand Total	ok
 
 ?>
 

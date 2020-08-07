@@ -78,7 +78,7 @@ foreach($csv as $line) {
    //image check
   //  $imageslist = [5,6,7,8,9];
    foreach(range(4, 8) as $eachimage) {
-     !strlen($eachimage) == 0 ?  $allimages[] = array('MediaUrl' => $eachimage) : '';
+     !strlen($line[$eachimage]) == 0 ?  $allimages[] = array('MediaUrl' => $line[$eachimage]) : '';
     }
     //check if no images found
     empty($allimages) ? $upload_error[] = 'No Media found.' : '';
