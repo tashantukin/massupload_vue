@@ -62,7 +62,8 @@
                             <tr v-for="(item,itemkey) in results">
                               <td> {{itemkey + 1}}  </td>
                               <td> {{ item.Name }}  </td>
-                              <td> {{ item.Error.length == 0 ? item.Error : 'No Errors' }}  </td>
+                              <!-- <td> {{ item.Error.length == 0 ? item.Error : 'No Errors' }}  </td> -->
+                              <td> {{ item.Error }}  </td>
                               <td> {{ item.code }}  </td>
                             </tr>
                           

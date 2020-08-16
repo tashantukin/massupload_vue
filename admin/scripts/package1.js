@@ -117,7 +117,7 @@ new Vue({
         alert("FileReader are not supported in this browser.");
       }
     },
-    onUpload: function () {
+    onU: function () {
       var vm = this;
       var data = { data: vm.csvcontent };
 
@@ -139,15 +139,6 @@ new Vue({
             // Scroll Down
           });
         })
-        // .then(function (response) {
-        //     //handle success
-        //     vm.results =  response['data'][0]['result']
-
-        //     console.log(response)
-        //     console.table(vm.results)
-        //     $('.data-loader').removeClass('active');
-
-        // })
         .catch(function (response) {
           //handle error
           console.log(response);
